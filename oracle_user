@@ -465,7 +465,7 @@ def main():
 		if not check_user_exists(msg, cursor, schema):
 			if create_user(module, msg, cursor, schema, schema_password, schema_password_hash, default_tablespace, default_temp_tablespace, profile, authentication_type, state, container, container_data, grants):
 				msg = 'The schema %s has been created successfully' % (schema)
-				module.exit_json(msg=msg, changed=True)
+				module.exit_json(msg=msg, changed=True, ansible_facts=dict(schema=schema))
 			else:
 				module.fail_json(msg=msg, changed=False)
 		else:

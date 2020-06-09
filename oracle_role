@@ -326,7 +326,7 @@ def main():
     if state == 'present':
         if not check_role_exists(module, msg, cursor, role, auth):
             if create_role(module, msg, cursor, role, auth, auth_conf, ansible_facts):
-                module.exit_json(msg=msg[0], changed=True)
+                module.exit_json(msg=msg[0], changed=True, ansible_facts)
             else:
                 module.fail_json(msg=msg[0], changed=False)
 

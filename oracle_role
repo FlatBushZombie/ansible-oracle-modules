@@ -120,7 +120,7 @@ def check_role_exists(module, msg, cursor, role, auth):
 
 
 # Create the role
-def create_role(module, msg, cursor, role, auth, auth_conf):
+def create_role(module, msg, cursor, role, auth, auth_conf, ansible_facts):
 
     if not(role) or not (auth):
         module.fail_json(msg='Error: Missing role name', changed=False)
@@ -162,6 +162,7 @@ def create_role(module, msg, cursor, role, auth, auth_conf):
         return False
 
     msg[0] = 'The role (%s) has been created successfully, authentication: %s' % (role, auth)
+    ansible_facts['role'] = role
     return True
 
 
@@ -257,6 +258,8 @@ def drop_role(module, msg, cursor, role):
 def main():
 
     msg = ['']
+    ansible_facts = dict()
+
     module = AnsibleModule(
         argument_spec = dict(
             hostname      = dict(default='localhost'),
@@ -322,7 +325,7 @@ def main():
 
     if state == 'present':
         if not check_role_exists(module, msg, cursor, role, auth):
-            if create_role(module, msg, cursor, role, auth, auth_conf):
+            if create_role(module, msg, cursor, role, auth, auth_conf, ansible_facts):
                 module.exit_json(msg=msg[0], changed=True)
             else:
                 module.fail_json(msg=msg[0], changed=False)

@@ -44,6 +44,11 @@ options:
             - The schema that should get grants added/removed
         required: false
         default: null
+    role:
+        description:
+            - The role that should get grants added/removed
+        required: false
+        default: null
     grants:
         description:
             - The privileges granted to the new schema. Can be a string or a list
